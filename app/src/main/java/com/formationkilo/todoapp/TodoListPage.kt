@@ -65,7 +65,10 @@ fun TodoListPage(viewModel: TodoViewModel){
                     inputText=it
                 }
             )
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                viewModel.addTodo(inputText)
+                inputText=""
+            }) {
                Text(text = "Add")
             }
         }
@@ -74,7 +77,10 @@ fun TodoListPage(viewModel: TodoViewModel){
                 content = {
                     //itemsIndexed(todoList){ index: Int,...
                     itemsIndexed(it){ index: Int, item: Todo ->
-                        TodoItem(item = item)
+                        //TodoItem(item = item)
+                        TodoItem(item = item, onDelete = {
+                            viewModel.deleteTodo(item.id)
+                        })
                     }
                 }
 
@@ -90,7 +96,7 @@ fun TodoListPage(viewModel: TodoViewModel){
 }
 
 @Composable
-fun TodoItem(item:Todo){
+fun TodoItem(item:Todo,onDelete:()->Unit){
    Row(modifier = Modifier
        .fillMaxSize()
        .padding(8.dp)
@@ -112,7 +118,7 @@ fun TodoItem(item:Todo){
                color = Color.White
            )
        }
-       IconButton(onClick = { /*TODO*/ }) {
+       IconButton(onClick = onDelete) {
            Icon(painter = painterResource(id = R.drawable.baseline_delete_24),
                contentDescription = "Delete",
                tint = Color.White)

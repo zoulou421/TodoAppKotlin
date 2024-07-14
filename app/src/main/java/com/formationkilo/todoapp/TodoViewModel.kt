@@ -12,7 +12,7 @@ class TodoViewModel: ViewModel(){
 
 
   fun getAllTodo(){
-     _todoList.value=TodoManager.getAllTodo()
+     _todoList.value=TodoManager.getAllTodo().reversed()
   }
   fun addTodo(title:String){
     TodoManager.addTodo(title)
