@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDirection.Companion.Content
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,11 +39,12 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-@SuppressLint("SuspiciousIndentation")
+//@SuppressLint("SuspiciousIndentation")
 @Composable
-@RequiresApi(Build.VERSION_CODES.O)
-fun TodoListPage(){
- var todoList= getFakeTodo()
+//@RequiresApi(Build.VERSION_CODES.O)
+fun TodoListPage(viewModel: TodoViewModel){
+ //var todoList= getFakeTodo()
+    val todoList by viewModel.todoList.observeAsState( )
     var inputText by remember {
         mutableStateOf("")
     }
@@ -51,7 +54,8 @@ fun TodoListPage(){
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth()
+        Row(modifier = Modifier
+            .fillMaxWidth()
             .padding(8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly) {
             OutlinedTextField(
@@ -65,14 +69,22 @@ fun TodoListPage(){
                Text(text = "Add")
             }
         }
-        LazyColumn (
-            content = {
-                itemsIndexed(todoList){index: Int, item: Todo ->  
-                   TodoItem(item = item)
+        todoList?.let {
+            LazyColumn (
+                content = {
+                    //itemsIndexed(todoList){ index: Int,...
+                    itemsIndexed(it){ index: Int, item: Todo ->
+                        TodoItem(item = item)
+                    }
                 }
-            }
-           
-        )
+
+            )
+        }?: Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            text = "No items yet",
+            fontSize = 16.sp
+            )
         
     }
 }
