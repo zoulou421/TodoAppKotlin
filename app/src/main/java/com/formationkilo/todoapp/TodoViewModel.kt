@@ -4,6 +4,9 @@ import android.icu.text.CaseMap.Title
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.Date
 
@@ -28,9 +31,13 @@ val todoDao=MainApplication.todoDatabase.getTodoDao()
 
   }*/
     fun addTodo(title: String){
-        todoDao.addTodo_v2(Todo(title=title, creatededAt = Date.from(Instant.now())))
+       viewModelScope.launch(Dispatchers.IO) {
+           todoDao.addTodo_v2(Todo(title=title, creatededAt = Date.from(Instant.now())))
+       }
     }
     fun deleteTodo(id:Int){
-        todoDao.deleteTodo_v2(id)
+       viewModelScope.launch(Dispatchers.IO) {
+           todoDao.deleteTodo_v2(id)
+       }
     }
 }
