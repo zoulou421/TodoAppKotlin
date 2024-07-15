@@ -3,12 +3,16 @@ package com.formationkilo.todoapp
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.time.Instant
 import java.time.LocalDate
 import java.util.Date
 
+@Entity
 data class Todo (
-    var id:Int,
+    @PrimaryKey(autoGenerate = true)
+    var id:Int=0,
     var title:String,
     // creatededAt :Date?
    var creatededAt:Date?
@@ -18,7 +22,7 @@ data class Todo (
 )
 
 
-
+/*
 
 fun getFakeTodo(): List<Todo> {
     return listOf(
@@ -29,4 +33,4 @@ fun getFakeTodo(): List<Todo> {
 
     );
 
-}
+}*/
