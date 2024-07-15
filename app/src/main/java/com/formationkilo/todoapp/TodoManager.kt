@@ -3,6 +3,9 @@ package com.formationkilo.todoapp
 import java.time.Instant
 import java.util.Date
 
+//THE CLASS IS NO LONGER NEED
+//IT WAS USED FOR INMEMORY PURPOSE
+//YOU CAN DELETE IT NOW THAT WE
 object TodoManager {
 
    private val todoList= mutableListOf<Todo>()
